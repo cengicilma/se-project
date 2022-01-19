@@ -43,7 +43,7 @@
 
 <!-- Featured Products -->
  <h2 class="title">Featured Products</h2>
-    <div class="row">
+    <div class="row" id="db-insert">
 
     </div>
 
@@ -193,7 +193,8 @@
             MenuItems.style.maxHeight = "0px";
         }
     }
-
+</script>
+<script type="text/javascript">
     //list products on home page
     function products() {
         $.get("./list-products", function (data) {
@@ -210,15 +211,11 @@
                 </div>
                 `;
 
-                $(".title .row").append(pr);
+                $("#db-insert").append(pr);
             });
         })
-        return function () {};
     }
-
     products();
-
-
 </script>
 </body>
 </html>
