@@ -505,5 +505,8 @@ form a{
     .cart-info p{
         display: none;
     }
+    .col-2 h1{
+        font-size: 30px;
+    }
 }
 

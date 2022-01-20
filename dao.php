@@ -7,9 +7,9 @@ require 'vendor/autoload.php';
 require 'ConnectDB.php';
 
 //list all the products in the products table
-Flight::route('GET/list-products', function () {
+Flight::route('GET /list-products', function () {
     $db = ConnectDB::getInstance()->getConnection();
-    $g = $db->query("SELECT * FROM product LIMIT 4");
+    $g = $db->query("SELECT * FROM product");
 
     while ($row = $g->fetch(PDO::FETCH_ASSOC)){
         $ar[] = $row;
@@ -18,7 +18,7 @@ Flight::route('GET/list-products', function () {
 });
 
 //add item to cart
-Flight::route("POST/order", function () {
+Flight::route("POST /order", function () {
     $db = ConnectDB::getInstance()->getConnection();
 
     $request = Flight::request();

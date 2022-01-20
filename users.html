@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Users - University System</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+  <div class="container">
+    <div class="navbar">
+      <div class="logo">
+        <a href="index.html"><img src="images/logo.png" width="125px"></a>
+      </div>
+      <nav>
+        <ul id="MenuItems">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="pages/users.html">Users</a></li>
+          <li><a href="">Professors</a></li>
+          <li><a href="">Assistants</a></li>
+          <li><a href="courses.html">Courses</a></li>
+          <li><a href="">Clubs</a></li>
+        </ul>
+      </nav>
+      <img src="images/menu.png" class="menu-icon" onclick="menuToggle()">
+    </div>
+  </div>
+
+  <!-- users table -->
+  <div id="users">
+    <div class="page-header">
+      <h1>users</h1>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table">
+          <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Phone Number</th>
+            <th scope="col">Address</th>
+            <th scope="col">Delete</th>
+          </tr>
+          </thead>
+          <tbody id="userstable">
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- footer -->
+  <div class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="footer-col-4">
+          <h3>Follow Us</h3>
+          <ul>
+            <li><a href="https://www.facebook.com/ibueduba">Facebook</a></li>
+            <li><a href="https://twitter.com/BurchUniversity">Twitter</a></li>
+            <li><a href="https://www.instagram.com/burchuniversity/">Instagram</a></li>
+            <li><a href="https://www.youtube.com/c/InternationalBURCHUniversity">YouTube</a></li>
+            <li><a href="https://www.linkedin.com/school/international-burch-university/">LinkedIn</a></li>
+          </ul>
+        </div>
+      </div>
+      <hr>
+      <p class="copyright">Ilma Čengić & Merjem Kapo - Software Engineering Project 2021/2022</p>
+    </div>
+  </div>
+
+  <!-- js for toggle menu -->
+  <script>
+    var MenuItems = document.getElementById("MenuItems");
+
+    MenuItems.style.maxHeight = "0px";
+
+    function menuToggle() {
+      if(MenuItems.style.maxHeight == "0px") {
+        MenuItems.style.maxHeight = "300px";
+      }
+      else {
+        MenuItems.style.maxHeight = "0px";
+      }
+    }
+  </script>
+
+<script type="text/javascript">
+
+  get_users();
+  function get_users() {
+    $.get("rest/users", function(data) {
+      var html = '';
+      for(var i = 0; i < data.length; i++) {
+        html += '<tr><td>' + data[i].userID + '</td>';
+        html += '<td>' + data[i].first_name + '</td>';
+        html += '<td>' + data[i].last_name + '</td>';
+        html += '<td>' + data[i].email + '</td>';
+        html += '<td>' + data[i].phone + '</td>';
+        html += '<td>' + data[i].address + '</td>';
+        html += '<td><a href="" class="btn" onclick="delete_user('+data[i].id+');">Delete</a></td></tr>';
+      }
+      $("#userstable").html(html);
+    });
+  }
+
+  function delete_user(id){
+    $.ajax({
+      url: 'rest/user/'+id,
+      method: 'DELETE',
+      success: function (result) {
+        toastr.success('Deleted');
+        get_users();
+      },
+      error: function(){
+        toastr.success('Not deleted');
+      }
+    });
+  }
+
+</script>
+</body>
+</html>
